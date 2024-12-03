@@ -1,3 +1,4 @@
+#![warn(clippy::pedantic)]
 use aoc2024::{Solver, Step};
 use regex::Regex;
 

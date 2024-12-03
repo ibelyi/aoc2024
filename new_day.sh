@@ -33,6 +33,8 @@ mkdir -p $ROOT/input/$DAY
 touch $ROOT/input/$DAY/input.txt
 mkdir -p $ROOT/src/bin
 cat > $ROOT/src/bin/$1.rs <<TEMPLATE
+#![warn(clippy::pedantic)]
+#![allow(clippy::match_same_arms)]
 use $crate::{Solver, Step};
 
 pub fn main() {
@@ -52,15 +54,13 @@ impl Solver for Solution {
     fn solution(&self, step: &Step, input: &[String]) -> String {
         let data: Vec<&String> = input.iter().collect();
         match step {
-            Step::First => self.count(&data).to_string(),
-            Step::Second => self.count(&data).to_string(),
+            Step::First => count(&data).to_string(),
+            Step::Second => count(&data).to_string(),
         }
     }
 }
 
-impl Solution {
-    fn count(&self, _: &[&String]) -> u64 {
-        0
-    }
+fn count(_: &[&String]) -> u64 {
+    0
 }
 TEMPLATE

@@ -1,3 +1,4 @@
+#![warn(clippy::pedantic)]
 use aoc2024::{Solver, Step};
 
 pub fn main() {
@@ -24,8 +25,8 @@ impl Solver for Solution {
             })
             .collect();
         match step {
-            Step::First => self.count(&data, false).to_string(),
-            Step::Second => self.count(&data, true).to_string(),
+            Step::First => count(&data, false).to_string(),
+            Step::Second => count(&data, true).to_string(),
         }
     }
 }
@@ -51,25 +52,23 @@ fn check(report: &[u64]) -> bool {
     true
 }
 
-impl Solution {
-    fn count(&self, data: &[Vec<u64>], fix: bool) -> usize {
-        data.iter()
-            .filter(|report| {
-                if check(report) {
+fn count(data: &[Vec<u64>], fix: bool) -> usize {
+    data.iter()
+        .filter(|report| {
+            if check(report) {
+                return true;
+            }
+            if !fix {
+                return false;
+            }
+            for i in 0..report.len() {
+                let mut copy = (*report).clone();
+                copy.remove(i);
+                if check(&copy) {
                     return true;
                 }
-                if !fix {
-                    return false;
-                }
-                for i in 0..report.len() {
-                    let mut copy = report.to_vec();
-                    copy.remove(i);
-                    if check(&copy) {
-                        return true;
-                    }
-                }
-                false
-            })
-            .count()
-    }
+            }
+            false
+        })
+        .count()
 }

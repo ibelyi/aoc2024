@@ -1,6 +1,6 @@
-use std::collections::HashMap;
-
+#![warn(clippy::pedantic)]
 use aoc2024::{Solver, Step};
+use std::collections::HashMap;
 
 pub fn main() {
     let solver = Solution {};
@@ -22,7 +22,7 @@ impl Solver for Solution {
         for line in input {
             let (one, two) = line.split_once("   ").expect("Missing delimiter");
             first.push(one.parse().expect("First number"));
-            second.push(two.parse().expect("Second number"))
+            second.push(two.parse().expect("Second number"));
         }
         match step {
             Step::First => {
