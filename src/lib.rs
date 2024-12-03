@@ -1,3 +1,5 @@
+#![warn(clippy::pedantic)]
+#![allow(clippy::missing_errors_doc)]
 #[derive(Debug)]
 pub enum Step {
     First,
@@ -38,7 +40,7 @@ pub trait Solver {
                 println!("{:?}: {}", s, self.solution(s, &lines));
             }
         } else {
-            eprintln!("Failed to load lines from {}", input);
+            eprintln!("Failed to load lines from {input}");
         }
     }
 }

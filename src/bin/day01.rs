@@ -17,8 +17,8 @@ impl Solver for Solution {
     }
 
     fn solution(&self, step: &Step, input: &[String]) -> String {
-        let mut first: Vec<u64> = vec![];
-        let mut second: Vec<u64> = vec![];
+        let mut first: Vec<u64> = Vec::new();
+        let mut second = Vec::new();
         for line in input {
             let (one, two) = line.split_once("   ").expect("Missing delimiter");
             first.push(one.parse().expect("First number"));
