@@ -6,6 +6,7 @@ pub enum Step {
     Second,
 }
 
+use colored::Colorize;
 use std::{
     fs::File,
     io::{self, BufRead, BufReader},
@@ -31,16 +32,26 @@ pub trait Solver {
                         if actual == expected {
                             continue;
                         }
-                        eprintln!("{s:?}: Test from {file} got {actual}, expected {expected}");
+                        eprintln!(
+                            "{}: Test from {} got {}, expected {}",
+                            format!("{s:?}").yellow(),
+                            file.blue().italic(),
+                            actual.red(),
+                            expected.green()
+                        );
                     } else {
-                        eprintln!("Failed to read lines from {test_input}");
+                        eprintln!("Failed to read lines from {}", test_input.red().italic());
                     }
                     std::process::exit(1);
                 }
-                println!("{:?}: {}", s, self.solution(s, &lines));
+                println!(
+                    "{}: {}",
+                    format!("{s:?}").yellow(),
+                    self.solution(s, &lines).green()
+                );
             }
         } else {
-            eprintln!("Failed to load lines from {input}");
+            eprintln!("Failed to load lines from {}", input.red().italic());
         }
     }
 }
