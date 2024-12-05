@@ -17,23 +17,18 @@ impl Solver for Solution {
     }
 
     fn solution(&self, step: &Step, input: &[String]) -> String {
-        let mut rules: HashSet<(u64, u64)> = HashSet::new();
-        let mut updates = vec![];
         let mut iter = input.iter();
-        for line in iter.by_ref() {
-            if line.is_empty() {
-                break;
-            }
-            let (a, b) = line.split_once('|').unwrap();
-            rules.insert((a.parse::<u64>().unwrap(), b.parse::<u64>().unwrap()));
-        }
-        for line in iter {
-            updates.push(
-                line.split(',')
-                    .map(|v| v.parse::<u64>().unwrap())
-                    .collect::<Vec<u64>>(),
-            );
-        }
+        let rules: HashSet<(u64, u64)> = iter
+            .by_ref()
+            .take_while(|line| !line.is_empty())
+            .map(|line| {
+                let (a, b) = line.split_once('|').unwrap();
+                (a.parse().unwrap(), b.parse().unwrap())
+            })
+            .collect();
+        let updates: Vec<Vec<u64>> = iter
+            .map(|line| line.split(',').map(|v| v.parse().unwrap()).collect())
+            .collect();
         match step {
             Step::First => count(&rules, &updates, true).to_string(),
             Step::Second => count(&rules, &updates, false).to_string(),
